@@ -26,14 +26,17 @@ import getUsersValue from './routes/userRoutes.js';
 app.use('/api/goals', getRoutesValue);
 app.use('/api/user', getUsersValue);
 
+// Serve client
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, '../', 'build', 'index.html'))
+    res.sendFile(
+      path.resolve(__dirname, '../', 'client', 'build', 'index.html')
+    )
   );
 } else {
-  app.use('/', (req, res) => res.send('please set to production'));
+  app.get('/', (req, res) => res.send('Please set to production'));
 }
 
 app.use(errorHandler);
