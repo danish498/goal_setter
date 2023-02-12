@@ -1,5 +1,5 @@
 import express from 'express';
-import path from 'path';
+import * as path from 'path';
 // const path = require('path');
 import colors from 'colors';
 import cors from 'cors';
@@ -27,13 +27,13 @@ app.use('/api/goals', getRoutesValue);
 app.use('/api/user', getUsersValue);
 
 // Serve client
+console.log(process.env.NODE_ENV === 'production');
+const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '/client/build')));
 
   app.get('*', (req, res) =>
-    res.sendFile(
-      path.resolve(__dirname, '../', 'client', 'build', 'index.html')
-    )
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   );
 } else {
   app.get('/', (req, res) => res.send('Please set to production'));
